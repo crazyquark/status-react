@@ -53,9 +53,11 @@
                 (let [{:keys [commands responses]} (get-in db [:contacts identity])]
                   (let [commands'  (mapv (fn [[k v]] [k [v :any]]) (merge global-commands commands))
                         responses' (mapv (fn [{:keys [message-id type]}]
-                                           [type [(get responses type) message-id]])
+                                           (when (get responses type)
+                                             [type [(get responses type) message-id]]))
                                          requests)]
                     (into commands' responses')))))
+         (remove nil?)
          (reduce (fn [m cur] (into (or m {}) cur)))
          (into {}))))
 
@@ -156,7 +158,7 @@
 (defn current-chat-argument-position
   "Returns the position of current argument. It's just an integer number from -1 to infinity.
   -1 (`*no-argument-error*`) means error. It can happen if there is no selected command or selection."
-  [{:keys [args] :as command} input-text selection seq-arguments]
+  [command input-text selection seq-arguments]
   (if command
     (if (get-in command [:command :sequential-params])
       (count seq-arguments)
