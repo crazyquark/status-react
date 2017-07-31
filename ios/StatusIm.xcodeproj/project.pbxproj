@@ -1043,11 +1043,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = DTX7Z4U3YA;
+						DevelopmentTeam = 5338LP7CS7;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = DTX7Z4U3YA;
+						DevelopmentTeam = 5338LP7CS7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1723,7 +1723,7 @@
 			baseConfigurationReference = 064351D2FD901F8B6C9AE2A5 /* Pods-StatusImTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = DTX7Z4U3YA;
+				DEVELOPMENT_TEAM = 5338LP7CS7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1765,7 +1765,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = DTX7Z4U3YA;
+				DEVELOPMENT_TEAM = 5338LP7CS7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1806,7 +1806,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = DTX7Z4U3YA;
+				DEVELOPMENT_TEAM = 5338LP7CS7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../modules/react-native-status/ios/RCTStatus",
 					"$(inherited)",
@@ -1844,7 +1844,7 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.status.ethereum;
+				PRODUCT_BUNDLE_IDENTIFIER = ro.im.status.ethereum;
 				PRODUCT_NAME = StatusIm;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1859,7 +1859,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = DTX7Z4U3YA;
+				DEVELOPMENT_TEAM = 5338LP7CS7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../modules/react-native-status/ios/RCTStatus",
 					"$(inherited)",
@@ -1897,7 +1897,7 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.status.ethereum;
+				PRODUCT_BUNDLE_IDENTIFIER = ro.im.status.ethereum;
 				PRODUCT_NAME = StatusIm;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

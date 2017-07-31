@@ -46,7 +46,7 @@
   "imageDirs": [
     "images"
   ],
-  "iosHost": "localhost",
+  "iosHost": "10.162.130.120",
   "envRoots": {
     "dev": "env/dev",
     "prod": "env/prod"
