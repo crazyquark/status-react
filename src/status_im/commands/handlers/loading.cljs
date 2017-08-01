@@ -13,8 +13,7 @@
             [status-im.i18n :refer [label]]
             [status-im.utils.homoglyph :as h]
             [status-im.utils.js-resources :as js-res]
-            [status-im.utils.random :as random]
-            [status-im.chat.sign-up :as sign-up]
+            [status-im.utils.random :as random] 
             [status-im.bots.constants :as bots-constants]
             [status-im.utils.datetime :as time]
             [status-im.data-store.local-storage :as local-storage]
@@ -22,7 +21,8 @@
 
 
 (defn load-commands!
-  [{:keys [current-chat-id contacts chats]} [jail-id callback]]
+  [{:keys [current-chat-id chats]
+    :contacts/keys [contacts]} [jail-id callback]]
   (let [identity    (or jail-id current-chat-id)
         contact-ids (if (get contacts identity)
                       [identity]
@@ -67,7 +67,7 @@
 
 (defn get-hash-by-identity
   [db identity]
-  (get-in db [:contacts identity :dapp-hash]))
+  (get-in db [:contacts/contacts identity :dapp-hash]))
 
 (defn get-hash-by-file
   [file]
@@ -121,7 +121,7 @@
        (into {})))
 
 (defn get-mailmans-commands [db]
-  (->> (get-in db [:contacts bots-constants/mailman-bot :commands])
+  (->> (get-in db [:contacts/contacts bots-constants/mailman-bot :commands])
        (map
          (fn [[k v :as com]]
            [k (-> v
@@ -147,7 +147,7 @@
     (cond-> db
 
             true
-            (update-in [:contacts id] assoc
+            (update-in [:contacts/contacts id] assoc
                        :commands-loaded? true
                        :commands (merge mailman-commands commands'')
                        :responses (each-merge responses' {:type     :response
@@ -160,20 +160,20 @@
                                           :type :command))
 
             (= id bots-constants/mailman-bot)
-            (update :contacts (fn [contacts]
-                                (reduce (fn [contacts [k _]]
-                                          (update-in contacts [k :commands]
-                                                     (fn [c]
-                                                       (merge mailman-commands c))))
-                                        contacts
-                                        contacts))))))
+            (update :contacts/contacts (fn [contacts]
+                                         (reduce (fn [contacts [k _]]
+                                                   (update-in contacts [k :commands]
+                                                              (fn [c]
+                                                                (merge mailman-commands c))))
+                                                 contacts
+                                                 contacts))))))
 
 (defn save-commands-js!
   [_ [id file]]
   #_(commands/save {:chat-id id :file file}))
 
 (defn save-commands!
-  [{:keys [global-commands contacts]} [id]]
+  [{:keys [global-commands] :contacts/keys [contacts]} [id]]
   (let [command   (get global-commands (keyword id))
         commands  (get-in contacts [id :commands])
         responses (get-in contacts [id :responses])]
@@ -195,7 +195,7 @@
 
 (reg-handler :check-and-load-commands!
   (u/side-effect!
-    (fn [{:keys [contacts]} [identity callback]]
+    (fn [{:contacts/keys [contacts]} [identity callback]]
       (if (get-in contacts [identity :commands-loaded?])
         (callback)
         (dispatch [:load-commands! identity callback])))))
@@ -216,7 +216,7 @@
    (after (fn [_ [id]]
             (dispatch [:invoke-commands-loading-callbacks id])
             (dispatch [:invoke-chat-loaded-callbacks id])))
-   (after (fn [{:keys [contacts]} [id]]
+   (after (fn [{:contacts/keys [contacts]} [id]]
             (let [subscriptions (get-in contacts [id :subscriptions])]
               (doseq [[name opts] subscriptions]
                 (dispatch [:register-bot-subscription

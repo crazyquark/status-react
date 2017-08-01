@@ -117,7 +117,7 @@
           all-commands (->> (into global-commands commands)
                             (remove (fn [[k {:keys [hidden?]}]] hidden?))
                             (into {}))
-          {:keys [dapp?]} (get-in db [:contacts chat-id])]
+          {:keys [dapp?]} (get-in db [:contacts/contacts chat-id])]
       (when dapp?
         (if (str/blank? chat-text)
           (dispatch [:set-in [:chats chat-id :parameter-boxes :message] nil])
@@ -144,7 +144,7 @@
                             (input-model/split-command-args)
                             (rest))
                 seq-arg (get-in db [:chats current-chat-id :seq-argument-input-text])
-                to      (get-in db [:contacts current-chat-id :address])
+                to      (get-in db [:contacts/contacts current-chat-id :address])
                 params  {:parameters {:args    args
                                       :bot-db  bot-db
                                       :seq-arg seq-arg}
@@ -237,7 +237,8 @@
 
 (handlers/register-handler ::request-command-data
   (handlers/side-effect!
-    (fn [{:keys [contacts bot-db] :as db}
+    (fn [{:keys [bot-db]
+          :contacts/keys [contacts] :as db}
          [_ {{:keys [command
                      metadata
                      args]
@@ -388,7 +389,8 @@
               new-sel      (->> command-args
                                 (take (+ 3 arg-pos))
                                 (input-model/join-command-args)
-                                (count))
+                                count
+                                (min (count input-text)))
               ref          (get-in chat-ui-props [current-chat-id :input-ref])]
           (.setNativeProps ref (clj->js {:selection {:start new-sel :end new-sel}}))
           (dispatch [:update-text-selection new-sel]))))))
